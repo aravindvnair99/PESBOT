@@ -1,0 +1,269 @@
+import json
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+cred = credentials.Certificate('./serviceAccountKey.json')
+app = firebase_admin.initialize_app(cred)
+db = firebase_admin.firestore.client(app)
+
+jtext='''[
+    {
+		"Programme": "B.Tech",
+		"Sem": "2nd",
+		"Course_Code": "UE18CS151",
+		"Course_Title": "Programming with C",
+		"Name": "Ms. Sindhu R Pai",
+		"Mobile_No": "8277606459",
+		"Email_ID": "sindhurpai@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "2nd",
+		"Course_Code": "UE18CS152",
+		"Course_Title": "Programming with C Lab",
+		"Name": "Ms. Savitri  Sheshappanavar",
+		"Mobile_No": "8123199496",
+		"Email_ID": "cssavitri@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17MA251",
+		"Course_Title": "Linear Algebra and Its Applications",
+		"Name": "Prof. Renna Sultana",
+		"Mobile_No": "9742682045",
+		"Email_ID": "rennasultana@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17CS251",
+		"Course_Title": "Design and Analysis of Algorithms",
+		"Name": "Mr. N S Kumar",
+		"Mobile_No": "9845066845",
+		"Email_ID": "kumaradhara@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17CS252",
+		"Course_Title": "Data Base Management Systems",
+		"Name": "Mr. Ramesh Bhat H",
+		"Mobile_No": "9448975931",
+		"Email_ID": "hrbhat@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17CS253",
+		"Course_Title": "Microprocessor and Computer Architecture",
+		"Name": "Mr. V.R. Badri Prasad",
+		"Mobile_No": "9845914285",
+		"Email_ID": "badriprasad@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17CS254",
+		"Course_Title": "Theory of Computation",
+		"Name": "Mr. Mahesh H.B",
+		"Mobile_No": "9945075885",
+		"Email_ID": "hbmahesh@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17CS255",
+		"Course_Title": "Design and Analysis of Algorithms Laboratory",
+		"Name": "Ms. Preethi P ",
+		"Mobile_No": "9945684008",
+		"Email_ID": "Preethip@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE17CS256",
+		"Course_Title": "Microprocessor and Computer Architecture Laboratory",
+		"Name": "Ms. Chitra G M",
+		"Mobile_No": "9900300411",
+		"Email_ID": "chitragm@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "4th",
+		"Course_Code": "UE18MA151D",
+		"Course_Title": "Engineering Mathematics –II",
+		"Name": "Prof. Shiva Shankar (S&H)",
+		"Mobile_No": "",
+		"Email_ID": ""
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS351",
+		"Course_Title": "Compiler Design",
+		"Name": "Ms. Preet Kanwal ",
+		"Mobile_No": "9663786026",
+		"Email_ID": "kanwal.preet08@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS352",
+		"Course_Title": "Cloud Computing",
+		"Name": "Dr. K.V. Subramaniam",
+		"Mobile_No": "9980852973",
+		"Email_ID": "kvsubramaniam@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS353",
+		"Course_Title": "Machine Learning",
+		"Name": "Mr. Srikanth H R",
+		"Mobile_No": "9980811725",
+		"Email_ID": "srikanthhr@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS354",
+		"Course_Title": "Compiler Design Laboratory",
+		"Name": "Ms. Preet Kanwal ",
+		"Mobile_No": "9663786026",
+		"Email_ID": "kanwal.preet08@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS355",
+		"Course_Title": "Machine Learning Laboratory",
+		"Name": "Mr. V.R. Badri Prasad",
+		"Mobile_No": "9845914285",
+		"Email_ID": "badriprasad@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS331",
+		"Course_Title": "Computer Network Security",
+		"Name": "Prof. H B Prasad",
+		"Mobile_No": "9980993885",
+		"Email_ID": "prasad.honnavalli@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS332",
+		"Course_Title": "Storage Area Networks",
+		"Name": "Prof. H L Phalachandara",
+		"Mobile_No": "9845681140",
+		"Email_ID": "phalachandra@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS333",
+		"Course_Title": "Natural Language Processing",
+		"Name": "Prof. Bhaskar Jyoti ",
+		"Mobile_No": "9945007248",
+		"Email_ID": "bhaskarjyoti01@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS335",
+		"Course_Title": "Generic Programming",
+		"Name": "Mr. N S Kumar",
+		"Mobile_No": "9845066845",
+		"Email_ID": "kumaradhara@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS336",
+		"Course_Title": "Drone Computing",
+		"Name": "Dr. Antony Piriyakumar",
+		"Mobile_No": "9856925132",
+		"Email_ID": "dalpk@yahoo.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS342",
+		"Course_Title": "Knowledge Management",
+		"Name": "Dr. Anant R Koppar",
+		"Mobile_No": "9880160607",
+		"Email_ID": "anant.koppar@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS343",
+		"Course_Title": "System Modeling and Simulation",
+		"Name": "Prof. Sreekanth M Prabhu",
+		"Mobile_No": "9880479148",
+		"Email_ID": "shreekanth@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS345",
+		"Course_Title": "Digital Image Processing",
+		"Name": "Dr. S Natarajan",
+		"Mobile_No": "9945280225",
+		"Email_ID": "natarajan@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS346",
+		"Course_Title": "Advanced Computer Networks",
+		"Name": "Dr. Oshin Sharma",
+		"Mobile_No": "7619187971",
+		"Email_ID": "droshinsharma@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE16CS347",
+		"Course_Title": "Reconfigurable Computing",
+		"Name": "Dr. Reetinder Siddhu",
+		"Mobile_No": "9449828832",
+		"Email_ID": "reetindersidhu@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE15CS451",
+		"Course_Title": "Introduction to Software Testing",
+		"Name": "Dr. Anant R Koppar",
+		"Mobile_No": "9880160607",
+		"Email_ID": "anant.koppar@gmail.com"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE15CS452",
+		"Course_Title": "Introduction to Business",
+		"Name": "Prof.Shreekanth M Prabhu",
+		"Mobile_No": "9880479148",
+		"Email_ID": "shreekanth@pes.edu"
+	},
+	{
+		"Programme": "B.Tech",
+		"Sem": "6th",
+		"Course_Code": "UE15CS453",
+		"Course_Title": "Research Methodology",
+		"Name": "Ms. Chandravva Hebbi",
+		"Mobile_No": "9986234571",
+		"Email_ID": "Chandravvahebbi@pes.edu"
+	}
+]'''
+with open("anchors.txt") as jfile:
+    s = str(jfile.read())
+    print(s)
+    anchors = json.loads(s)
+    for anchor in anchors:
+        db.collection(u'anchors').document().set(anchor)
